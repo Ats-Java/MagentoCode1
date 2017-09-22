@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config>
+<modules>
+<Chweb_Loadregistration>
+	<active>true</active>
+<codePool>local</codePool>
+</Chweb_Loadregistration>
+</modules>
+
+</config>

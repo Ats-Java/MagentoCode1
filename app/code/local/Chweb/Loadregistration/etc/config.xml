@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Chweb_Loadregistration>
+            <version>1.0</version>
+        </Chweb_Loadregistration>
+    </modules> 
+<frontend>
+  <routers>
+    <!-- This is the frontname to override
+    EG: http://mydomainname.com/customer/  -->
+    <customer>
+      <args>
+        <modules>
+          <!-- Use the module Spinonesolutions_Customer BEFORE Mage_Customer -->
+          <Chweb_Loadregistration before="Mage_Customer">Chweb_Loadregistration</Chweb_Loadregistration>
+        </modules>
+      </args>
+    </customer>
+  </routers>
+  <layout>
+            <updates>
+                <loadregistration>
+                    <file>loadregistration.xml</file>
+                </loadregistration>
+            </updates>
+        </layout>
+</frontend>  
+  <global>  <models>
+            <mymodule>
+                <class>Chweb_Loadregistration_Model</class>
+            </mymodule>
+        </models>
+          <helpers>
+            <loadregistration>
+                <class>Chweb_Loadregistration_Helper</class>
+            </loadregistration>
+        </helpers>
+     </global>
+     <adminhtml>
+    <acl>
+        <resources>
+            <all>
+                <title>Allow Everything</title>
+            </all>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <chweb>
+                                        <title>chweb - All</title>
+                                    </chweb>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</adminhtml>
+</config>

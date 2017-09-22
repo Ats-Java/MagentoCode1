@@ -1,0 +1,221 @@
+<?php
+/*------------------------------------------------------------------------
+ # SM Tab Listing - Version 1.0
+ # Copyright (c) 2013 YouTech Company. All Rights Reserved.
+ # @license - Copyrighted Commercial Software
+ # Author: YouTech Company
+ # Websites: http://www.magentech.com
+-------------------------------------------------------------------------*/
+
+$smarthelper = Mage::helper('tablisting/utils');
+$options  = $this->getConfigObject();
+$maxtitle = $options->item_title_max_characs;
+$max_des = $options->item_desc_max_characs;
+$img_width = $options->item_image_width;
+$img_height = $options->item_image_height;
+$post     = Mage::app()->getRequest()->getPost();
+if( $post ){
+	$is_ajax  = $post['is_ajax'];
+	$cat_id   = $post['tab_cat_id'];
+	$order_id = $post['order_id'];
+	$count    = $post['ajax_tablisting_start'];
+}else{
+	$is_ajax  = "";
+	$cat_id   = "";
+	$order_id = "";
+	$count    = "";	
+}
+
+if( $is_ajax ){ 
+	$type     =  $post['data_type'];
+	if( $type == 'order' ){
+		$child_items = $this->getProductsOrder($order_id);
+	} else {
+		$child_items = $this->getProducts($cat_id);
+	}
+}
+if( !empty($child_items) ) { 
+	if( $is_ajax ){
+		$k = $count;
+	} else {
+		$k = 0;
+	} ?>
+	
+<?php $i=0;?>
+<div class="container-slider-detail slider-tab-listing">
+	<div class="block-content">
+		<div class="page-button top style">
+            <ul class="control-button">
+                <li class="prev_tablist"><i></i>Prev</li>
+                <li class="next_tablist"><i></i>Next</li>
+            </ul>		
+        </div>
+		<div class="container-slider">
+			<div id="box-slider-tablisting" class="slider slider-tbl slider-tabl cols-4 preset01-1 preset01-1 preset02-1 preset03-1 preset04-1 preset05-1 js-loaded">
+				<div class="vpo-wrap">
+				<div class="vp">
+				<div class="vpi-wrap">
+				<?php	foreach( $child_items  as $item ){ $k++;  $i++;
+					$_product = Mage::getModel('catalog/product')->load($item->id);
+					$now = date("Y-m-d H:m:s");
+					$newsFrom= $_product->getNewsFromDate(); //substr($_product->getData('news_from_date'),0,10);
+					$newsTo= $_product->getNewsToDate();   //substr($_product->getData('news_to_date'),0,10);
+					$specialprice = Mage::getModel('catalog/product')->load($_product->getId())->getSpecialPrice();
+					$price = Mage::getModel('catalog/product')->load($_product->getId())->getPrice();
+					$special_from_date = $_product->getSpecialFromDate();
+					$special_to_date = $_product->getSpecialToDate();
+				?>
+				<?php if ( $i%8 == 1 ):?>
+				<div class="item item-tab-listing">
+					<div class="row">
+				<?php endif;?>
+					
+					<div class="col-md-3 sub-item respl-item">
+						<div class="item-inner">
+							<div class="w-image-box">			
+								<div class="item-image">
+									<!--SHOW 2 IMAGE FOR PRODUCTS-->
+									<?php $_media = $_product->getMediaGalleryImages() ?>
+											
+									<?php $count_item=0; $check_img=0;?>
+									<?php $check_img = count($_media);?>		
+									<?php //foreach($_media as $_img): ?>
+										<?php //$check_img++;?>
+									<?php //endforeach; ?>
+									<a class="<?php if ($check_img >= 2) echo $this->__('rspl-image');?>" href="<?php echo $item->link ?>" <?php echo $smarthelper->getTargetAttr($options->product_links_target);?> onclick="javascript: return true" title="<?php echo $item->title?>" >
+											<?php if ($check_img >= 2):?>
+												<?php foreach($_media as $_img): ?>
+														<?php $count_item++;?>
+														<img class="<?php if($count_item==1) echo $this->__('first_image')?> <?php if($count_item==2) echo $this->__('last_image')?>" src="<?php echo $this->helper('catalog/image')->init($_product, 'image', $_img->getFile())->constrainOnly(true)->keepAspectRatio(true)->keepFrame(false)->resize($img_width,$img_height); ?>" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true); ?>" />
+														<?php if($count_item==2) break;?>
+												<?php endforeach; ?>
+											<?php else:?>
+												<img src="<?php echo $item->image;?>" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" />
+											<?php endif?>
+											
+										<!--END SHOW 2 IMAGE FOR PRODUCTS-->
+									</a>
+
+									
+									
+									
+									
+									
+								</div>
+								<?php if ($newsFrom !="" && $now>=$newsFrom && ($now<=$newsTo || $newsTo=="")){?>
+										<div class="new-product">
+											<div class="new-content">
+												<?php echo $this->__('New'); ?>
+											</div>
+										</div>
+								<?php }?>
+								<?php if (($specialprice && ($special_from_date <= $now) && ($special_to_date >= $now || $special_to_date =="" ))){?>
+									<div class='sale-item'>
+										<?php echo $this->__('Sale'); ?>
+									</div>
+								<?php }?>	
+							</div>
+							<div class="item-info">
+								<?php if( $options->item_title_display == 1 ){?>
+								<div class="item-title ">
+									<a href="<?php echo $item->link ?>" <?php echo $smarthelper->getTargetAttr($options->product_links_target);?> onclick="javascript: return true"  title="<?php echo $item->title?>" >
+										<?php echo $item->title; ?>
+									</a>
+								</div>
+								<?php } ?>
+								
+								<?php if( $options->item_review_disp == 1 ) {?>
+									<div class="item-review">
+										<?php echo $item->review_html; ?>
+									</div>
+								<?php }?>
+								
+								<?php if( $options->item_price_disp == 1 ) {	?>
+									<div class="item-price">
+										  <?php //echo $item->price_html; ?>
+										  <?php echo $this->getPriceHtml($_product, false, '_b') ?>
+									</div>
+									<?php }?>
+									
+								<?php if( $options->item_desc_display == 1 ) {?>
+								<div class="item-desc">
+									<?php echo substr($item->description,0,$max_des);?>
+								</div>
+								<?php }?>
+								
+								<div class="item-addto-wrap">
+									<div class="button-action item-addcart">
+										
+										<?php if( $options->item_cart_disp == 1 ) {?>
+										<?php if($_product->isSaleable()): ?>
+											<a class="button btn-cart" title="<?php echo $this->__('Add to Cart') ?>" href="javascript:void(0);" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')">
+												<?php echo $this->__('Add to Cart') ?>
+											</a>
+											<?php else: ?>
+											<span class="availability out-of-stock"><span><?php echo $this->__('Out of stock') ?></span></span>
+											<?php endif; ?>																
+										<?php } ?>
+										
+										<!--<?php if( $options->item_compare_disp == 1 && $_compareUrl=$this->getAddToCompareUrl($_product)){ ?>                    						
+										<a class="link-compare" href="<?php echo $_compareUrl ?>" title="<?php echo $this->__('Add to Compare'); ?>">
+											<?php echo $this->__('Add to Compare') ?>
+										</a>							
+										<?php } ?>-->
+										
+										<?php if ( $this->helper('wishlist')->isAllow() ) : ?>
+										<a title="<?php echo $this->__('Add to Wishlist') ?>" href="<?php echo $this->helper('wishlist')->getAddUrl($_product) ?>" class="link-wishlist">
+											<?php echo $this->__('Add to Wishlist') ?>
+										</a>
+										<?php endif; ?>
+										
+										
+									</div>
+								</div>						
+							</div>
+						</div>
+						
+					</div>
+					
+				<?php if ( $i%8 == 0 || $i == $count ):?>
+					</div>
+					
+				</div>
+				<?php endif; }; ?>
+				
+				</div>
+				</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<?php }?>
+<script>
+	$jsmart(document).ready(function($){
+		$('.respl-items-selected .slider-tbl').responsiver({
+			interval: 0,
+			speed: 300,
+			start: 0,
+			step: 1,
+			circular: true,
+			preload: true,
+			fx: 'slide',
+			pause: 'hover',
+			control:{
+			prev: '.respl-items-selected .control-button li[class="prev_tablist"]',
+			next: '.respl-items-selected .control-button li[class="next_tablist"]'
+			},
+			getColumns: function(element){
+				var match = $(element).attr('class').match(/cols-(\d+)/);
+				if (match[1]){
+				var column = parseInt(match[1]);
+				} else {
+					var column = 1;
+				}
+				if (!column) column = 1;
+				return column;
+			}
+		});
+	});
+</script>

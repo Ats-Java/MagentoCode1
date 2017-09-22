@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<config>
+	<tabs>
+	<chweb translate="label" module="loadregistration">
+	<label>Chweb Extensions</label>
+	<sort_order>100</sort_order>
+	</chweb>
+	</tabs>
+	<sections>
+	<chweb translate="label" module="loadregistration">
+	<label>Chweb Options</label>
+	<tab>chweb</tab>
+	<sort_order>1000</sort_order>
+	<show_in_default>1</show_in_default>
+	<show_in_website>1</show_in_website>
+	<show_in_store>1</show_in_store>
+  <groups>
+                <chweb_group translate="label" module="loadregistration">
+                    <label>Chweb Setting Options</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>1000</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                 <fields>
+					  <chweb_input translate="label">
+                            <label>Popup Title: </label>
+                            <comment>My heading</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </chweb_input>
+                         <chweb_textarea translate="label">
+                            <label>Popup Content: </label>
+                            <comment>Content</comment>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </chweb_textarea>
+		 <chweb_select translate="label">
+				<label>Enable/Disable: </label>
+				<comment>Select Yes/No values</comment>
+				<frontend_type>select</frontend_type>
+				<sort_order>90</sort_order>
+				<show_in_default>1</show_in_default>
+				<show_in_website>1</show_in_website>
+				<show_in_store>1</show_in_store>
+				<source_model>adminhtml/system_config_source_yesno</source_model>
+			</chweb_select>   
+             </fields>
+                </chweb_group>
+            </groups>         
+	</chweb>
+	</sections>
+	</config>

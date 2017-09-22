@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package>
+    <name>cax9zauuowifdlmN</name>
+    <version>1.0.1</version>
+    <stability>stable</stability>
+    <license uri="http://www.gnu.org/copyleft/gpl.html">GNU General Public License (GPL)</license>
+    <channel>community</channel>
+    <extends/>
+    <summary>Register the guest, When guest come on our site and popup form will be open and ask to fill and save </summary>
+    <description>Basically, This popup form open when guest first time visit on our site , ask to guest please fill the email id s well as name and phone number and click for save, details will save and guest now register and get the welcome mail with possword </description>
+    <notes>If jquery not call in your application then you should call jquery </notes>
+    <authors><author><name>Rajesh chaudhary</name><user>rajeshdnw</user><email>rajeshdnw@gail.com</email></author></authors>
+    <date>2014-11-30</date>
+    <time>07:06:28</time>
+    <contents><target name="magelocal"><dir name="Chweb"><dir name="Loadregistration"><dir name="Helper"><file name="Data.php" hash="86e73fd485ab2d70fe86ea6c31af69e9"/></dir><dir name="Model"><file name="Loadregistration.php" hash="9220d0701f4d7fed27477a1b5ebd14ba"/></dir><dir name="controllers"><file name="AccountController.php" hash="76500dee41dc016c4f41beeafbe8ec0c"/></dir><dir name="etc"><file name="config.xml" hash="5b65b6afcabe009ebad4310f0352f1ed"/><file name="system.xml" hash="0ea26602e7a6990887959978bf88584c"/></dir></dir></dir></target><target name="mageetc"><dir name="modules"><file name="Chweb_Loadregistration.xml" hash="5a5bc08eb53fcc1b7d1d9dc679b8f9a7"/></dir></target><target name="magedesign"><dir name="frontend"><dir name="base"><dir name="default"><dir name="template"><dir name="chweb"><file name="popup.phtml" hash="212117793eba1613dfabe36f7c726bcc"/></dir></dir><dir name="layout"><file name="loadregistration.xml" hash="c766a5aa0b5134d1d5de277026b5b4e9"/></dir></dir></dir></dir></target><target name="mageskin"><dir name="frontend"><dir name="base"><dir name="default"><dir name="css"><file name="popup.css" hash="fe36d230541e3ce1283e928ee6b288ba"/></dir></dir></dir></dir></target></contents>
+    <compatible/>
+    <dependencies><required><php><min>5.0.0</min><max>6.0.0</max></php></required></dependencies>
+</package>
